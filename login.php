@@ -1,3 +1,56 @@
+<?php
+
+session_start();
+
+include("db_connect.php");
+
+if(isset($_POST['login']))
+{
+    $email = mysqli_real_escape_string(
+        $conn,
+        trim($_POST['email'])
+    );
+
+    $password = mysqli_real_escape_string(
+        $conn,
+        trim($_POST['password'])
+    );
+
+    $sql = "SELECT * FROM authors
+            WHERE email='$email'";
+
+    $result = mysqli_query($conn,$sql);
+
+    if(!$result)
+    {
+        die("Database Error : ".mysqli_error($conn));
+    }
+
+    if(mysqli_num_rows($result)==1)
+    {
+        $row = mysqli_fetch_assoc($result);
+
+        if($password == $row['password'])
+        {
+            $_SESSION['author_id'] = $row['author_id'];
+            $_SESSION['author_name'] = $row['name'];
+
+            header("Location: author_dashboard.php");
+            exit();
+        }
+        else
+        {
+            $error = "Incorrect Password";
+        }
+    }
+    else
+    {
+        $error = "Author Not Found";
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -6,11 +59,16 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport"
+content="width=device-width, initial-scale=1">
 
-<title>AI Journal System</title>
+<title>Author Login</title>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+rel="stylesheet">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+rel="stylesheet">
 
 <style>
 
@@ -18,44 +76,29 @@ body{
 background:#f4f6f9;
 }
 
-.hero{
-background:linear-gradient(135deg,#0d6efd,#003366);
-color:white;
-padding:80px 20px;
-text-align:center;
-}
-
-.hero h1{
-font-size:45px;
-font-weight:bold;
-}
-
-.hero p{
-font-size:20px;
-margin-top:20px;
-}
-
-.section-title{
-color:#003366;
-font-weight:bold;
-margin-bottom:30px;
+.navbar{
+box-shadow:0 2px 10px rgba(0,0,0,.15);
 }
 
 .card{
 border:none;
-box-shadow:0px 0px 10px rgba(0,0,0,.1);
-transition:.3s;
+border-radius:15px;
+box-shadow:0 0 15px rgba(0,0,0,.15);
 }
 
-.card:hover{
-transform:translateY(-5px);
+.card-header{
+background:#0d6efd;
+color:white;
+font-size:24px;
+font-weight:bold;
+text-align:center;
 }
 
 footer{
 background:#003366;
 color:white;
 padding:20px;
-margin-top:50px;
+margin-top:60px;
 text-align:center;
 }
 
@@ -69,7 +112,8 @@ text-align:center;
 
 <div class="container">
 
-<a class="navbar-brand fw-bold" href="index.php">
+<a class="navbar-brand fw-bold"
+href="index.php">
 
 AI Journal System
 
@@ -85,58 +129,21 @@ data-bs-target="#menu">
 
 </button>
 
-<div class="collapse navbar-collapse" id="menu">
+<div class="collapse navbar-collapse"
+id="menu">
 
 <ul class="navbar-nav ms-auto">
 
 <li class="nav-item">
-
-<a class="nav-link active" href="index.php">
-
-Home
-
-</a>
-
+<a class="nav-link" href="index.php">Home</a>
 </li>
 
 <li class="nav-item">
-
-<a class="nav-link" href="author.php">
-
-Author
-
-</a>
-
+<a class="nav-link" href="author.php">Register</a>
 </li>
 
 <li class="nav-item">
-
-<a class="nav-link" href="reviewer.php">
-
-Reviewer
-
-</a>
-
-</li>
-
-<li class="nav-item">
-
-<a class="nav-link" href="editor.php">
-
-Editor
-
-</a>
-
-</li>
-
-<li class="nav-item">
-
-<a class="nav-link" href="admin.php">
-
-Admin
-
-</a>
-
+<a class="nav-link active" href="login.php">Login</a>
 </li>
 
 </ul>
@@ -147,256 +154,108 @@ Admin
 
 </nav>
 
-<section class="hero">
-
-<div class="container">
-
-<h1>
-
-AI-Based Research Paper Analysis
-
-</h1>
-
-<p>
-
-Upload research papers, generate AI summaries, extract keywords,
-manage peer reviews, and publish research papers through a complete
-Journal Management System.
-
-</p>
-
-<div class="mt-4">
-
-<a
-href="author.php"
-class="btn btn-light btn-lg me-3">
-
-Author Registration
-
-</a>
-
-<a
-href="login.php"
-class="btn btn-warning btn-lg">
-
-Author Login
-
-</a>
-
-</div>
-
-<div class="mt-3">
-
-<a
-href="reviewer.php"
-class="btn btn-success me-2">
-
-Reviewer Login
-
-</a>
-
-<a
-href="editor.php"
-class="btn btn-info text-white me-2">
-
-Editor Login
-
-</a>
-
-<a
-href="admin.php"
-class="btn btn-danger">
-
-Admin Login
-
-</a>
-
-</div>
-
-</div>
-
-</section>
-
 <div class="container mt-5">
 
-<h2 class="text-center section-title">
+<div class="row justify-content-center">
 
-System Features
-
-</h2>
-
-<div class="row">
-<div class="col-md-4 mb-4">
-
-<div class="card h-100">
-
-<div class="card-body text-center">
-
-<h3 class="text-primary">
-
-🤖 AI Summary
-
-</h3>
-
-<p>
-
-Generate automatic summaries of uploaded research papers using Artificial Intelligence.
-
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="col-md-4 mb-4">
-
-<div class="card h-100">
-
-<div class="card-body text-center">
-
-<h3 class="text-success">
-
-🔑 Keyword Extraction
-
-</h3>
-
-<p>
-
-Extract important keywords from research papers using NLP and KeyBERT.
-
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="col-md-4 mb-4">
-
-<div class="card h-100">
-
-<div class="card-body text-center">
-
-<h3 class="text-danger">
-
-📚 Journal Management
-
-</h3>
-
-<p>
-
-Complete workflow for Authors, Reviewers, Editors and Administrators.
-
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="col-md-4 mb-4">
-
-<div class="card h-100">
-
-<div class="card-body text-center">
-
-<h3 class="text-warning">
-
-📄 Paper Upload
-
-</h3>
-
-<p>
-
-Upload research papers securely in PDF format for AI analysis and review.
-
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="col-md-4 mb-4">
-
-<div class="card h-100">
-
-<div class="card-body text-center">
-
-<h3 class="text-info">
-
-⭐ Peer Review
-
-</h3>
-
-<p>
-
-Reviewers evaluate papers, assign ratings, and recommend decisions.
-
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="col-md-4 mb-4">
-
-<div class="card h-100">
-
-<div class="card-body text-center">
-
-<h3 class="text-secondary">
-
-🚀 Publication
-
-</h3>
-
-<p>
-
-Editors publish accepted papers while Admin manages the entire journal system.
-
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<section class="container mt-5">
+<div class="col-lg-5">
 
 <div class="card">
 
+<div class="card-header">
+
+Author Login
+
+</div>
+
 <div class="card-body">
 
-<h2 class="text-center text-primary mb-4">
+<?php
 
-About the Project
+if(isset($error))
+{
+    echo "<div class='alert alert-danger'>$error</div>";
+}
 
-</h2>
+?>
 
-<p class="text-center">
+<form method="POST">
+<div class="mb-3">
 
-The AI-Based Research Paper Analysis and Journal Management System is a web application developed using PHP, MySQL, Python, Bootstrap 5, Hugging Face Transformers, and KeyBERT. It enables authors to upload research papers, generates AI-powered summaries and keywords, supports peer review, and provides a complete workflow for editors and administrators to manage journal publications.
+<label class="form-label">
+
+Email Address
+
+</label>
+
+<input
+type="email"
+name="email"
+class="form-control"
+placeholder="Enter your Email"
+required>
+
+</div>
+
+<div class="mb-3">
+
+<label class="form-label">
+
+Password
+
+</label>
+
+<input
+type="password"
+name="password"
+class="form-control"
+placeholder="Enter your Password"
+required>
+
+</div>
+
+<div class="d-grid">
+
+<button
+type="submit"
+name="login"
+class="btn btn-primary">
+
+<i class="fa-solid fa-right-to-bracket"></i>
+
+Login
+
+</button>
+
+</div>
+
+<div class="text-center mt-3">
+
+<p>
+
+Don't have an account?
+
+<a href="author.php">
+
+Register Here
+
+</a>
 
 </p>
 
 </div>
 
+</form>
+
 </div>
 
-</section>
+</div>
+
+</div>
+
+</div>
+
+</div>
 
 <footer>
 
@@ -410,7 +269,7 @@ AI-Based Research Paper Analysis and Journal Management System
 
 <p>
 
-Developed using PHP, MySQL, Python, Bootstrap 5, Hugging Face Transformers, and KeyBERT.
+Developed using PHP, MySQL, Python, Bootstrap 5, Hugging Face Transformers and KeyBERT.
 
 </p>
 

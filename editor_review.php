@@ -10,10 +10,6 @@ if(!isset($_SESSION['editor_id']))
 
 include("db_connect.php");
 
-/* --------------------------
-   Publish / Reject Paper
---------------------------- */
-
 if(isset($_GET['action']) && isset($_GET['paper_id']))
 {
     $paper_id = intval($_GET['paper_id']);
@@ -21,10 +17,10 @@ if(isset($_GET['action']) && isset($_GET['paper_id']))
     if($_GET['action']=="publish")
     {
         mysqli_query(
-        $conn,
-        "UPDATE papers
-        SET status='Published'
-        WHERE paper_id='$paper_id'"
+            $conn,
+            "UPDATE papers
+             SET status='Published'
+             WHERE paper_id='$paper_id'"
         );
 
         header("Location:editor_dashboard.php");
@@ -34,20 +30,16 @@ if(isset($_GET['action']) && isset($_GET['paper_id']))
     if($_GET['action']=="reject")
     {
         mysqli_query(
-        $conn,
-        "UPDATE papers
-        SET status='Rejected'
-        WHERE paper_id='$paper_id'"
+            $conn,
+            "UPDATE papers
+             SET status='Rejected'
+             WHERE paper_id='$paper_id'"
         );
 
         header("Location:editor_dashboard.php");
         exit();
     }
 }
-
-/* --------------------------
-   Check Paper ID
---------------------------- */
 
 if(!isset($_GET['paper_id']))
 {
@@ -56,7 +48,6 @@ if(!isset($_GET['paper_id']))
 
 $paper_id = intval($_GET['paper_id']);
 
-?>
 $sql = "
 
 SELECT
@@ -79,11 +70,9 @@ reviews.review_date
 FROM papers
 
 INNER JOIN authors
-
 ON papers.author_id = authors.author_id
 
 LEFT JOIN reviews
-
 ON papers.paper_id = reviews.paper_id
 
 WHERE papers.paper_id='$paper_id'
@@ -138,6 +127,11 @@ box-shadow:0 0 15px rgba(0,0,0,.10);
 margin-bottom:20px;
 }
 
+.card-header{
+font-size:22px;
+font-weight:bold;
+}
+
 footer{
 background:#003366;
 color:white;
@@ -156,7 +150,9 @@ text-align:center;
 
 <div class="container">
 
-<a class="navbar-brand fw-bold" href="editor_dashboard.php">
+<a
+class="navbar-brand fw-bold"
+href="editor_dashboard.php">
 
 AI Journal System
 
@@ -172,13 +168,17 @@ data-bs-target="#menu">
 
 </button>
 
-<div class="collapse navbar-collapse" id="menu">
+<div
+class="collapse navbar-collapse"
+id="menu">
 
 <ul class="navbar-nav ms-auto">
 
 <li class="nav-item">
 
-<a class="nav-link" href="editor_dashboard.php">
+<a
+class="nav-link"
+href="editor_dashboard.php">
 
 Dashboard
 
@@ -188,7 +188,9 @@ Dashboard
 
 <li class="nav-item">
 
-<a class="nav-link" href="logout.php">
+<a
+class="nav-link"
+href="logout.php">
 
 Logout
 
@@ -210,13 +212,9 @@ Logout
 
 <div class="card-header bg-primary text-white">
 
-<h3>
-
 <i class="fa-solid fa-file-circle-check"></i>
 
 Paper Details
-
-</h3>
 
 </div>
 
@@ -224,13 +222,13 @@ Paper Details
 
 <div class="row">
 
-<div class="col-md-6">
+<div class="col-md-6 mb-3">
 
-<p>
+<label class="fw-bold">
 
-<strong>Paper Title</strong>
+Paper Title
 
-</p>
+</label>
 
 <p>
 
@@ -240,13 +238,13 @@ Paper Details
 
 </div>
 
-<div class="col-md-6">
+<div class="col-md-6 mb-3">
 
-<p>
+<label class="fw-bold">
 
-<strong>Research Domain</strong>
+Research Domain
 
-</p>
+</label>
 
 <p>
 
@@ -256,13 +254,13 @@ Paper Details
 
 </div>
 
-<div class="col-md-6">
+<div class="col-md-6 mb-3">
 
-<p>
+<label class="fw-bold">
 
-<strong>Author Name</strong>
+Author Name
 
-</p>
+</label>
 
 <p>
 
@@ -272,13 +270,13 @@ Paper Details
 
 </div>
 
-<div class="col-md-6">
+<div class="col-md-6 mb-3">
 
-<p>
+<label class="fw-bold">
 
-<strong>Author Email</strong>
+Author Email
 
-</p>
+</label>
 
 <p>
 
@@ -290,11 +288,11 @@ Paper Details
 
 <div class="col-12">
 
-<p>
+<label class="fw-bold">
 
-<strong>Abstract</strong>
+Abstract
 
-</p>
+</label>
 
 <div class="border rounded p-3 bg-light">
 
@@ -307,11 +305,8 @@ Paper Details
 <div class="col-12 mt-4">
 
 <a
-
 href="uploads/<?php echo $row['pdf_file']; ?>"
-
 target="_blank"
-
 class="btn btn-success">
 
 <i class="fa-solid fa-file-pdf"></i>
@@ -331,13 +326,9 @@ Open PDF
 
 <div class="card-header bg-success text-white">
 
-<h3>
-
 <i class="fa-solid fa-comments"></i>
 
 Reviewer Details
-
-</h3>
 
 </div>
 
@@ -345,13 +336,13 @@ Reviewer Details
 
 <div class="row">
 
-<div class="col-md-12">
+<div class="col-md-12 mb-3">
 
-<p>
+<label class="fw-bold">
 
-<strong>Reviewer Comments</strong>
+Reviewer Comments
 
-</p>
+</label>
 
 <div class="border rounded p-3 bg-light">
 
@@ -372,13 +363,15 @@ else
 
 </div>
 
-<div class="col-md-4 mt-4">
+<div class="col-md-4">
+
+<label class="fw-bold">
+
+Rating
+
+</label>
 
 <p>
-
-<strong>Rating</strong>
-
-</p>
 
 <?php
 
@@ -393,15 +386,19 @@ else
 
 ?>
 
+</p>
+
 </div>
 
-<div class="col-md-4 mt-4">
+<div class="col-md-4">
+
+<label class="fw-bold">
+
+Decision
+
+</label>
 
 <p>
-
-<strong>Decision</strong>
-
-</p>
 
 <?php
 
@@ -421,22 +418,24 @@ elseif($row['decision']=="Minor Revision")
 {
     echo "<span class='badge bg-warning text-dark'>Minor Revision</span>";
 }
-else
+elseif($row['decision']=="Major Revision")
 {
-    echo "<span class='badge bg-info'>Major Revision</span>";
+    echo "<span class='badge bg-info text-dark'>Major Revision</span>";
 }
 
 ?>
 
+</p>
+
 </div>
 
-<div class="col-md-4 mt-4">
+<div class="col-md-4">
 
-<p>
+<label class="fw-bold">
 
-<strong>Review Date</strong>
+Review Date
 
-</p>
+</label>
 
 <p>
 
@@ -461,14 +460,11 @@ else
 
 <hr>
 
-<div class="d-flex flex-wrap gap-2">
+<div class="d-flex gap-2 flex-wrap">
 
 <a
-
 href="editor_review.php?action=publish&paper_id=<?php echo $row['paper_id']; ?>"
-
 class="btn btn-success"
-
 onclick="return confirm('Publish this paper?');">
 
 <i class="fa-solid fa-check"></i>
@@ -478,11 +474,8 @@ Publish Paper
 </a>
 
 <a
-
 href="editor_review.php?action=reject&paper_id=<?php echo $row['paper_id']; ?>"
-
 class="btn btn-danger"
-
 onclick="return confirm('Reject this paper?');">
 
 <i class="fa-solid fa-xmark"></i>
@@ -492,9 +485,7 @@ Reject Paper
 </a>
 
 <a
-
 href="editor_dashboard.php"
-
 class="btn btn-secondary">
 
 <i class="fa-solid fa-arrow-left"></i>
