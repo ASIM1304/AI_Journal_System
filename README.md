@@ -174,3 +174,6 @@ This project is developed for educational purposes.
 
 ![Admin Dashboard](screenshots/admin_dashboard.png)
 
+### 👤 Author Registration
+
+![Author Registration](screenshots/author_registration.png)
