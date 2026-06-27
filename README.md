@@ -114,3 +114,63 @@ Warangal, Telangana
 ## License
 
 This project is developed for educational purposes.
+
+---
+## ## Project Screenshots
+
+### 🏠 Home Page
+
+![Home Page](screenshots/home.png)
+
+### 🔐 Author Login
+
+![Author Login](screenshots/author_login.png)
+
+### 📊 Author Dashboard
+
+![Author Dashboard](screenshots/author_dashboard.png)
+
+### 📤 Upload Research Paper
+
+![Upload Paper](screenshots/upload_paper.png)
+
+### 📄 My Papers
+
+![My Papers](screenshots/my_papers.png)
+
+### 🤖 AI Analysis
+
+![AI Analysis](screenshots/ai_analysis.png)
+
+### 👨‍⚖️ Reviewer Login
+
+![Reviewer Login](screenshots/reviewer_login.png)
+
+### 📋 Reviewer Dashboard
+
+![Reviewer Dashboard](screenshots/reviewer_dashboard.png)
+
+### 📝 Review Paper
+
+![Review Paper](screenshots/review_paper.png)
+
+### 👨‍💼 Editor Login
+
+![Editor Login](screenshots/editor_login.png)
+
+### 📊 Editor Dashboard
+
+![Editor Dashboard](screenshots/editor_dashboard.png)
+
+### ✅ Editor Review
+
+![Editor Review](screenshots/editor_review.png)
+
+### 👨‍💻 Admin Login
+
+![Admin Login](screenshots/admin_login.png)
+
+### 📈 Admin Dashboard
+
+![Admin Dashboard](screenshots/admin_dashboard.png)
+
